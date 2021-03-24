@@ -2,6 +2,7 @@ package spring.rest.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import spring.rest.dto.UserDto;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -28,6 +29,16 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     public User() {}
+
+    public User(UserDto userDto) {
+        this.id = userDto.getId();
+        this.firstName = userDto.getFirstName();
+        this.lastName = userDto.getLastName();
+        this.age = userDto.getAge();
+        this.email = userDto.getEmail();
+        this.password = userDto.getPassword();
+        this.roles = userDto.getSetRoles();
+    }
 
     public Long getId() {
         return id;
@@ -113,5 +124,18 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

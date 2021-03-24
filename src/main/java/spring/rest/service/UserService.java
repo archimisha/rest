@@ -1,5 +1,6 @@
 package spring.rest.service;
 
+import spring.rest.dto.UserDto;
 import spring.rest.model.Role;
 import spring.rest.model.User;
 import spring.rest.repository.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +37,11 @@ public class UserService implements UserDetailsService {
         return userRepository.getOne(id);
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDto> findAll() {
+        List<User> users = userRepository.findAll();
+        List<UserDto> userDto = new ArrayList<>();
+        users.forEach(user -> userDto.add(new UserDto(user)));
+        return userDto;
     }
 
     public void saveUser(User user) {
@@ -60,5 +65,9 @@ public class UserService implements UserDetailsService {
         }
 
         return user;
+    }
+
+    public boolean ifExists(Long id) {
+        return userRepository.existsById(id);
     }
 }
